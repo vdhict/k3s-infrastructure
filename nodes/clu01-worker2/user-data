@@ -9,7 +9,7 @@
 #
 
 # Set your hostname here, the manage_etc_hosts will update the hosts file entries as well
-hostname: clu01-worker1
+hostname: clu01-worker2
 
 # Enable password authentication with the SSH daemon
 ssh_pwauth: true
@@ -31,16 +31,13 @@ package_upgrade: true
 
 ## Install additional packages on first boot
 packages:
-- avahi-daemon
-- ansible
+- curl
+- wget
+- htop
+- nfs-common
 
-## Run arbitrary commands at rc.local like time
 runcmd:
-  # Pickup the hostname changes
-  - 'sudo systemctl restart avahi-daemon'
-  # Run Ansible play
-  - 'sudo ansible-pull -U https://vdhict/k3s-infrastructure.git -i inventory/inventory.yml provision.yml > /var/log/ansible-provision.run 2>&1'
-
-powerstate:
-  delay: "+5"
-  mode: reboot
+- ln -sfn /run/systemd/resolve/resolv.conf /etc/resolv.conf
+- curl -sfL https://get.k3s.io | K3S_URL=https://clu01-master:6443 K3S_TOKEN=$K3S_TOKEN sh -s - --node-taint arm=true:NoExecute  --node-label "k3s-upgrade=enabled"
+- sync
+- reboot -f
