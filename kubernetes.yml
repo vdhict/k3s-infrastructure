@@ -1,0 +1,5 @@
+---
+
+- hosts: kubernetes
+  roles:
+    - k3s

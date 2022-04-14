@@ -1,0 +1,11 @@
+---
+
+all:
+  hosts:
+    clu01-master:
+    clu01-worker[1:4]:
+  children:
+    kubernetes:
+      hosts:
+       clu01-master:
+       clu01-worker[1:4]:
