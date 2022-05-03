@@ -11,23 +11,26 @@
 # Set your hostname here, the manage_etc_hosts will update the hosts file entries as well
 hostname: clu01-worker4
 
-# Enable password authentication with the SSH daemon
-ssh_pwauth: true
+chpasswd:
+  expire: false
+  list:
+  - ubuntu:$UBUNTU_PASSWORD
 
-## Add users and groups to the system, and import keys with the ssh-import-id
-users:
-- name: ansible
-  primary-group: users
-  shell: /bin/bash
-  sudo: ALL=(ALL) NOPASSWD:ALL
-  passwd: $5$ePiDdTHyuG$zs2kCemj9HMLuUmCxQwqsq13ejc1YLRyw51YuuKeZQB
-  groups: users,adm,dialout,audio,plugdev,netdev,video
-  lock_passwd: true
-  ssh-authorized-keys:
-    - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFkElZQKceoslqvyMZHY60Ufg8ttc61hZUNhaHm2TyZe sheijden@vdhlocal
+# Enable password authentication with the SSH daemon
+ssh_pwauth: false
+
+ssh_authorized_keys:
+  - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFkElZQKceoslqvyMZHY60Ufg8ttc61hZUNhaHm2TyZe sheijden@vdhlocal
+
 ## Update apt database and upgrade packages on first boot
 package_update: true
 package_upgrade: true
+
+ntp:
+  enabled: true
+  servers:
+    - 193.79.237.14
+    - 194.109.6.2
 
 ## Install additional packages on first boot
 packages:
@@ -36,8 +39,9 @@ packages:
 - htop
 - nfs-common
 
+## Run arbitrary commands at rc.local like time
 runcmd:
 - ln -sfn /run/systemd/resolve/resolv.conf /etc/resolv.conf
-- curl -sfL https://get.k3s.io | K3S_URL=https://clu01-master:6443 K3S_TOKEN=$K3S_TOKEN sh -s - --node-taint arm=true:NoExecute  --node-label "k3s-upgrade=enabled"
+- curl -sfL https://get.k3s.io | K3S_URL=https://clu01-master:6443 K3S_TOKEN=$K3S_TOKEN sh -s - --node-taint arm=true:NoExecute  --node-label "k3s-upgrade=enabled"- apt autoremove -fy
 - sync
 - reboot -f

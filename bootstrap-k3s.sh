@@ -19,7 +19,7 @@ if [ $# -eq 0 ]
     usage
 else
   NODE="$1"
-  if [ -f "nodes/$NODE" ]
+  if [ -d "nodes/$NODE" ]
     then
       echo "$NODE found"
     else
@@ -30,12 +30,14 @@ fi
 if [ -z "$2" ]
   then
     # check if the ubuntu system-boot volume is already present in the default location
-    if [ -f /Volumes/system-boot/cmdline.txt ]
+    if [ -f /mnt/d/cmdline.txt ]
       then
-        echo "Assuming /Volumes/system-boot as the target"
-        TARGET_VOLUME="/Volumes/system-boot"
+        echo "Assuming /mnt/d as the target"
+        TARGET_VOLUME="/mnt/d"
       else
-        echo "No path given as a target. Call the script with '$0 <some node name> <some target path>'"
+        echo "No path given as a target. Call the script with '$0 <some node name> <some target path>' or mount the drive with "
+        echo "mount -t drvfs d: /mnt/d"
+        echo "assuming sdcard is D: in Windows and not mounted in WSL yet"
         exit 1
     fi
 else
@@ -49,5 +51,5 @@ message "writing $NODE configuration to $TARGET_VOLUME"
 
 echo "copying cmdline.txt to $TARGET_VOLUME/cmdline.txt"
 cp -f cmdline.txt "$TARGET_VOLUME/cmdline.txt"
-echo "copying nodes/${NODE} to $TARGET_VOLUME/user-data"
-envsubst < "nodes/${NODE}" > "$TARGET_VOLUME/user-data"
+echo "copying nodes/${NODE}/user-data to $TARGET_VOLUME/user-data"
+envsubst < "nodes/${NODE}/user-data" > "$TARGET_VOLUME/user-data"

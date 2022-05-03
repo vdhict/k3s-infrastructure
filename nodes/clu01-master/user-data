@@ -11,23 +11,25 @@
 # Set your hostname here, the manage_etc_hosts will update the hosts file entries as well
 hostname: clu01-master
 
+chpasswd:
+  expire: false
+  list:
+  - ubuntu:$UBUNTU_PASSWORD
+
 # Enable password authentication with the SSH daemon
 ssh_pwauth: true
 
-## Add users and groups to the system, and import keys with the ssh-import-id
-users:
-- name: ansible
-  primary-group: users
-  shell: /bin/bash
-  sudo: ALL=(ALL) NOPASSWD:ALL
-  passwd: $5$ePiDdTHyuG$zs2kCemj9HMLuUmCxQwqsq13ejc1YLRyw51YuuKeZQB
-  groups: users,adm,dialout,audio,plugdev,netdev,video
-  lock_passwd: true
-  ssh-authorized-keys:
-    - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFkElZQKceoslqvyMZHY60Ufg8ttc61hZUNhaHm2TyZe sheijden@vdhlocal
+ssh_authorized_keys:
+  - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFkElZQKceoslqvyMZHY60Ufg8ttc61hZUNhaHm2TyZe sheijden@vdhlocal
 ## Update apt database and upgrade packages on first boot
 package_update: true
 package_upgrade: true
+
+ntp:
+  enabled: true
+  servers:
+    - 193.79.237.14
+    - 194.109.6.2
 
 ## Install additional packages on first boot
 packages:
