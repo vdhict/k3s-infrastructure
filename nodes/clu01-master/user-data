@@ -37,6 +37,7 @@ packages:
 - wget
 - htop
 - nfs-common
+- open-iscsi
 
 ## Run arbitrary commands at rc.local like time
 runcmd:
