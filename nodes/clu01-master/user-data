@@ -38,11 +38,12 @@ packages:
 - htop
 - nfs-common
 - open-iscsi
+- linux-modules-extra-raspi
 
 ## Run arbitrary commands at rc.local like time
 runcmd:
 - ln -sfn /run/systemd/resolve/resolv.conf /etc/resolv.conf
-- curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC='server --token $K3S_TOKEN --tls-san clu01-master --no-deploy servicelb --no-deploy traefik --no-deploy local-storage' sh -
+- curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC='server --token $K3S_TOKEN --tls-san clu01-master --no-deploy servicelb --no-deploy traefik --no-deploy local-storage --node-taint node-role.kubernetes.io/master=true:NoSchedule --node-label "k3s-upgrade=enabled"' sh -
 - apt autoremove -fy
 - sync
 - reboot -f

@@ -39,6 +39,7 @@ packages:
 - htop
 - nfs-common
 - open-iscsi
+- linux-modules-extra-raspi
 
 ## Run arbitrary commands at rc.local like time
 runcmd:
