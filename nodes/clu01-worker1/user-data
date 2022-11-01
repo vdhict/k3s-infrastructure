@@ -17,7 +17,7 @@ chpasswd:
   - ubuntu:$UBUNTU_PASSWORD
 
 # Enable password authentication with the SSH daemon
-ssh_pwauth: false
+ssh_pwauth: true
 
 ssh_authorized_keys:
   - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFkElZQKceoslqvyMZHY60Ufg8ttc61hZUNhaHm2TyZe sheijden@vdhlocal
@@ -31,6 +31,9 @@ ntp:
   servers:
     - 193.79.237.14
     - 194.109.6.2
+
+mounts:
+ - [ sda1,/media/storage,ext4,"defaults,noatime,nodiratime","0","2"]
 
 ## Install additional packages on first boot
 packages:
