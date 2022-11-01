@@ -11,11 +11,6 @@
 # Set your hostname here, the manage_etc_hosts will update the hosts file entries as well
 hostname: clu01-worker1
 
-chpasswd:
-  expire: false
-  list:
-  - ubuntu:$UBUNTU_PASSWORD
-
 # Enable password authentication with the SSH daemon
 ssh_pwauth: true
 
