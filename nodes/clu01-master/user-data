@@ -43,7 +43,7 @@ packages:
 ## Run arbitrary commands at rc.local like time
 runcmd:
 - ln -sfn /run/systemd/resolve/resolv.conf /etc/resolv.conf
-- curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC='server --token $K3S_TOKEN --write-kubeconfig-mode "0644" --tls-san clu01-master --disable servicelb --disable traefik --disable local-storage --node-taint node-role.kubernetes.io/master=true:NoSchedule' sh -
+- curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC='server --token $K3S_TOKEN --write-kubeconfig-mode "0644" --tls-san clu01-master --disable servicelb --disable traefik --disable local-storage --node-taint node-role.kubernetes.io/master=true:NoSchedule' INSTALL_K3S_VERSION='v1.24.7+k3s1' sh -
 - apt autoremove -fy
 - sync
 - reboot -f
