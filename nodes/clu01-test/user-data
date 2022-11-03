@@ -9,12 +9,7 @@
 #
 
 # Set your hostname here, the manage_etc_hosts will update the hosts file entries as well
-hostname: clu01-worker1
-
-chpasswd:
-  expire: false
-  list:
-  - ubuntu:RANDOM
+hostname: clu01-test
 
 # Enable password authentication with the SSH daemon
 ssh_pwauth: true
@@ -22,31 +17,31 @@ ssh_pwauth: true
 ssh_authorized_keys:
   - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFkElZQKceoslqvyMZHY60Ufg8ttc61hZUNhaHm2TyZe sheijden@vdhlocal
 
-## Update apt database and upgrade packages on first boot
-package_update: true
-package_upgrade: true
+# ## Update apt database and upgrade packages on first boot
+# package_update: true
+# package_upgrade: true
 
 ntp:
   enabled: true
   servers:
     - 172.16.2.246
 
-mounts:
- - [ LABEL=USBStorage,/media/storage,ext4,"defaults,noatime,nodiratime","0","2"]
+# mounts:
+#  - [ LABEL=USBStorage,/media/storage,ext4,"defaults,noatime,nodiratime","0","2"]
 
-## Install additional packages on first boot
-packages:
-- curl
-- wget
-- htop
-- nfs-common
-- open-iscsi
-- linux-modules-extra-raspi
+# ## Install additional packages on first boot
+# packages:
+# - curl
+# - wget
+# - htop
+# - nfs-common
+# - open-iscsi
+# - linux-modules-extra-raspi
 
-## Run arbitrary commands at rc.local like time
-runcmd:
-- ln -sfn /run/systemd/resolve/resolv.conf /etc/resolv.conf
-- curl -sfL https://get.k3s.io | K3S_URL='https://clu01-master:6443' K3S_TOKEN=$K3S_TOKEN sh -s -
-- apt autoremove -fy
-- sync
-- reboot -f
+# ## Run arbitrary commands at rc.local like time
+# ##
+# runcmd:
+# - ln -sfn /run/systemd/resolve/resolv.conf /etc/resolv.conf
+# - curl -sfL https://get.k3s.io | K3S_URL='https://clu01-master:6443' K3S_TOKEN=$K3S_TOKEN sh -s -
+# - sync
+# - reboot -f

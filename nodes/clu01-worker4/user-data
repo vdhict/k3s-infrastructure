@@ -11,6 +11,12 @@
 # Set your hostname here, the manage_etc_hosts will update the hosts file entries as well
 hostname: clu01-worker4
 
+
+chpasswd:
+  expire: false
+  list:
+  - ubuntu:RANDOM
+
 # Enable password authentication with the SSH daemon
 ssh_pwauth: true
 
@@ -24,11 +30,10 @@ package_upgrade: true
 ntp:
   enabled: true
   servers:
-    - 193.79.237.14
-    - 194.109.6.2
+    - 172.16.2.246
 
 mounts:
- - [ sda1, /media/storage,ext4,"defaults,noatime,nodiratime","0","2"]
+ - [ LABEL=USBStorage,/media/storage,ext4,"defaults,noatime,nodiratime","0","2"]
 
 ## Install additional packages on first boot
 packages:
@@ -42,6 +47,6 @@ packages:
 ## Run arbitrary commands at rc.local like time
 runcmd:
 - ln -sfn /run/systemd/resolve/resolv.conf /etc/resolv.conf
-- curl -sfL https://get.k3s.io | K3S_URL='https://clu01-master:6443' K3S_TOKEN=$K3S_TOKEN INSTALL_K3S_CHANNEL='stable' sh -s -
+- curl -sfL https://get.k3s.io | K3S_URL='https://clu01-master:6443' K3S_TOKEN=$K3S_TOKEN sh -s -
 - sync
 - reboot -f

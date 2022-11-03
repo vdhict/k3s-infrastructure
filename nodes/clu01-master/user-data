@@ -11,11 +11,17 @@
 # Set your hostname here, the manage_etc_hosts will update the hosts file entries as well
 hostname: clu01-master
 
+chpasswd:
+  expire: false
+  list:
+  - ubuntu:RANDOM
+
 # Enable password authentication with the SSH daemon
 ssh_pwauth: true
 
 ssh_authorized_keys:
   - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFkElZQKceoslqvyMZHY60Ufg8ttc61hZUNhaHm2TyZe sheijden@vdhlocal
+
 ## Update apt database and upgrade packages on first boot
 package_update: true
 package_upgrade: true
@@ -23,8 +29,7 @@ package_upgrade: true
 ntp:
   enabled: true
   servers:
-    - 193.79.237.14
-    - 194.109.6.2
+    - 172.16.2.246
 
 ## Install additional packages on first boot
 packages:
@@ -38,7 +43,7 @@ packages:
 ## Run arbitrary commands at rc.local like time
 runcmd:
 - ln -sfn /run/systemd/resolve/resolv.conf /etc/resolv.conf
-- curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC='server --token $K3S_TOKEN --tls-san clu01-master --disable servicelb --disable traefik --disable local-storage --node-taint node-role.kubernetes.io/master=true:NoSchedule' sh -
+- curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC='server --token $K3S_TOKEN --write-kubeconfig-mode "0644" --tls-san clu01-master --disable servicelb --disable traefik --disable local-storage --node-taint node-role.kubernetes.io/master=true:NoSchedule' sh -
 - apt autoremove -fy
 - sync
 - reboot -f
