@@ -30,7 +30,8 @@ ntp:
   enabled: true
   servers:
     - 172.16.2.246
-
+    - ntp1.nl.net
+    
 mounts:
  - [ LABEL=USBStorage,/media/storage,ext4,"defaults,noatime,nodiratime","0","2"]
 

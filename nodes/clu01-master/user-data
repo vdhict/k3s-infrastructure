@@ -30,6 +30,7 @@ ntp:
   enabled: true
   servers:
     - 172.16.2.246
+    - ntp1.nl.net
 
 ## Install additional packages on first boot
 packages:
